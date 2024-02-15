@@ -1,0 +1,2 @@
+localhost ansible_user=abhishekrauthan ansible_ssh_pass=Abhi@123 ansible_python_interpreter=/Users/abhishekrauthan/anaconda3/bin/python
+# ansible_ssh_common_args = '-o StrictHostKeyChecking=no'
