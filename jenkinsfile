@@ -3,6 +3,8 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'scientific_calculator'
         GITHUB_REPO_URL = 'https://github.com/AbhishekRauthan909/scientific_calculator.git'
+        MAVEN_HOME = '/opt/homebrew/opt/maven'
+
     }
     stages {
         stage('Checkout') {
@@ -16,9 +18,7 @@ pipeline {
         stage('Maven Build') {
                     steps {
                         script {
-                            // Set Maven home environment variable
                             env.PATH = "${env.MAVEN_HOME}/bin:${env.PATH}"
-                            // Execute Maven build
                             sh 'mvn clean install'
                         }
                     }
