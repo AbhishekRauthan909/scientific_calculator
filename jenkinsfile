@@ -9,23 +9,24 @@ pipeline {
             steps {
                 script {
                     // Checkout code from GitHub repository
-                    git branch: 'main', url: "${GITHUB_REPO_URL}"
+                    git branch: 'main', url: "${env.GITHUB_REPO_URL}"
                 }
             }
         }
-        stage('Maven Build')
-        {
-           steps
-           {
-              script
-              {
-                 sh 'mvn clean install'
-              }
-           }
+        stage('Maven Build') {
+            steps {
+                script {
+                    // Execute Maven build
+                    sh 'mvn clean install'
+                }
+            }
         }
         stage('Build Docker Image') {
             steps {
-                sh '/usr/local/bin/docker build -t scientific_calculator .'
+                script {
+                    // Build Docker image
+                    sh 'docker build -t ${env.DOCKER_IMAGE_NAME} .'
+                }
             }
         }
         stage('Push Docker Images') {
@@ -33,8 +34,8 @@ pipeline {
                 script {
                     // Tag and push Docker image to Docker Hub
                     docker.withRegistry('', 'DockerHubCred') {
-                        sh "docker tag ${DOCKER_IMAGE_NAME} abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
-                        sh "docker push abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
+                        sh "docker tag ${env.DOCKER_IMAGE_NAME} abhishekrauthan2023106/${env.DOCKER_IMAGE_NAME}:latest"
+                        sh "docker push abhishekrauthan2023106/${env.DOCKER_IMAGE_NAME}:latest"
                     }
                 }
             }
@@ -42,8 +43,8 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    def ansibleCommand = "/opt/homebrew/bin/ansible-playbook -i inventory deploy.yml"
-                    sh ansibleCommand
+                    // Run Ansible playbook
+                    sh "/opt/homebrew/bin/ansible-playbook -i inventory deploy.yml"
                 }
             }
         }
