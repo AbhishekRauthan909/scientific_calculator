@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    sh 'docker build -t ${env.DOCKER_IMAGE_NAME} .'
+                    sh 'docker build -t scientific_calculator .'
                 }
             }
         }
@@ -36,8 +36,8 @@ pipeline {
                 script {
                     // Tag and push Docker image to Docker Hub
                     docker.withRegistry('', 'DockerHubCred') {
-                        sh "docker tag ${env.DOCKER_IMAGE_NAME} abhishekrauthan2023106/${env.DOCKER_IMAGE_NAME}:latest"
-                        sh "docker push abhishekrauthan2023106/${env.DOCKER_IMAGE_NAME}:latest"
+                        sh "docker tag scientific_calculator abhishekrauthan2023106/scientific_calculator:latest"
+                        sh "docker push abhishekrauthan2023106/scientific_calculator:latest"
                     }
                 }
             }
